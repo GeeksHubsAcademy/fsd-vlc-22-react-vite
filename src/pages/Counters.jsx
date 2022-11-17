@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useReducer } from "react";
 
 function Counters() {
   const [totalCount, setTotalCount] = useState(0);
@@ -6,6 +6,7 @@ function Counters() {
   const updateTotalCount = () => {
     setTotalCount(totalCount + 1);
   }
+
 
   console.log("rendering Counters");
   return (
@@ -27,21 +28,41 @@ function Totals({totals}) {
 }
 
 
+const initialState = {
+  count: 0,
+  sumando: 1,
+};
+
+function reducer(state, action){
+    switch(action.type){
+        case "increment":
+            return state + 1;
+        case "decrement":
+            return state - 1;
+        default:
+            throw new Error('Unexpected action type' + action.type);
+    }
+}
 
 function Counter(props) {
-  const [count, setCount] = useState(0);
-  const updateCount = () => {
-    const nextCount = count + 1;
-    setCount(nextCount)
-    props.tellYourFather()
-  }
+  const [count, dispatch] = useReducer(reducer, initialState);
 
-  console.log("rendering Counter");
+  const increment = () => {
+    dispatch({type: "increment"});
+  }
+  const decrement = () => {
+    dispatch({type: "decrement"});
+  }
+  const changeSumando = (e) => {
+    dispatch({type: "changeSumando", payload: e.target.value});
+
+  }
   return (
     <div>
       <h3>
-        Counter {props.name}: {count}{" "}
-        <button onClick={updateCount}>+</button>
+        <button onClick={decrement}>-</button>
+        <input value={sumando} onChange={changeSumando}></input> {count}{" "}
+        <button onClick={increment}>+</button>
       </h3>
     </div>
   );
