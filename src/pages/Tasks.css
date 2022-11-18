@@ -3,19 +3,6 @@
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     height: 100%;
 }
-.task {
-    /* min-width: 300px; */
-    border: 1px solid #282c34;
-    border-radius: 5px;
-    background-color: steelblue;
-    color: white;
-    padding: 1em 3em;
-    margin: 1em;
-}
-.task.completed {
-    text-decoration: line-through;
-    opacity: 0.6;
-}
 .addTask input {
     padding: 1em;
     border: 1px solid #282c34;

@@ -1,0 +1,14 @@
+
+.task {
+    /* min-width: 300px; */
+    border: 1px solid #282c34;
+    border-radius: 5px;
+    background-color: steelblue;
+    color: white;
+    padding: 1em 3em;
+    margin: 1em;
+}
+.task.completed {
+    text-decoration: line-through;
+    opacity: 0.6;
+}

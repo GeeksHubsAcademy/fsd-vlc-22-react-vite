@@ -1,6 +1,7 @@
 import { useEffect, useReducer, useState } from "react";
+import Task from "../components/Task";
 import "./Tasks.css";
-const STATE_SAVED_AT = "state1"
+const STATE_SAVED_AT = "state1";
 function createActionToCreateTask(title, description) {
   return {
     type: "CREATE_TASK",
@@ -54,8 +55,8 @@ const initialState = {
   }],
 };
 
-const savedState = JSON.parse(localStorage.getItem(STATE_SAVED_AT)) ?? initialState;
-console.log(savedState);
+const savedState = JSON.parse(localStorage.getItem(STATE_SAVED_AT)) ??
+  initialState;
 
 function reducer(state, action) {
   switch (action.type) {
@@ -127,27 +128,12 @@ function Tasks(props) {
       </section>
       <section className="tasks">
         {state.tasks.map((task) => (
-          <div
-            className={"task " + (task.completed ? "completed" : "uncompleted")}
+          <Task
+            taskData={task}
+            deleteById={deleteTask}
+            toggleCompletedById={toggleCompleted}
             key={task.id}
-          >
-            <h2>{task.title}</h2>
-            <p>{task.description}</p>
-            <div className="actions">
-              <button
-                className="toggleComplete"
-                onClick={() => toggleCompleted(task.id)}
-              >
-                {task.completed ? "Uncomplete" : "Complete"}
-              </button>
-              <button className="trash" onClick={() => deleteTask(task.id)}>
-                🗑
-              </button>
-              <button onClick={() => dispatch({ type: "unknown" })}>
-                do nothing
-              </button>
-            </div>
-          </div>
+          />
         ))}
       </section>
     </div>
