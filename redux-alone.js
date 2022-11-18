@@ -39,6 +39,7 @@ let store = createStore(reducer);
   store.subscribe(() => {
     console.log("Suscripción a cambios en el store");
     const state = store.getState();
+
     state.alumnosAprobados = [];
     console.log(store.getState());
 
