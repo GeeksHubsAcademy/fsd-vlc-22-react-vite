@@ -1,6 +1,6 @@
-import { useReducer, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import "./Tasks.css";
-
+const STATE_SAVED_AT = "state1"
 function createActionToCreateTask(title, description) {
   return {
     type: "CREATE_TASK",
@@ -44,19 +44,18 @@ const initialState = {
     id: 5,
     title: "Crear un subcomponente para cada tarea",
     description: "esta para el 7",
-  },
-  {
+  }, {
     id: 6,
     title: "Gestión de importancia de la tareas",
-  },
-  {
+  }, {
     id: 7,
     title: "validar que exista título",
-    description:"y borrar los inputs al añadir tarea"
-  }
-
-],
+    description: "y borrar los inputs al añadir tarea",
+  }],
 };
+
+const savedState = JSON.parse(localStorage.getItem(STATE_SAVED_AT)) ?? initialState;
+console.log(savedState);
 
 function reducer(state, action) {
   switch (action.type) {
@@ -89,13 +88,18 @@ function reducer(state, action) {
         tasks: state.tasks.filter((task) => !task.completed),
       };
     default:
-      return state;
+      // return state;
+      return { ...state };
       //   throw new Error("Unexpected action type" + action.type);
   }
 }
 
 function Tasks(props) {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(reducer, savedState);
+  useEffect(() => {
+    console.log("useEffect", state);
+    localStorage.setItem(STATE_SAVED_AT, JSON.stringify(state));
+  }, [JSON.stringify(state)]);
 
   function createTask(event) {
     event.preventDefault();
@@ -138,6 +142,9 @@ function Tasks(props) {
               </button>
               <button className="trash" onClick={() => deleteTask(task.id)}>
                 🗑
+              </button>
+              <button onClick={() => dispatch({ type: "unknown" })}>
+                do nothing
               </button>
             </div>
           </div>
